@@ -1,0 +1,22 @@
+{% extends "twreferences/base.html" %}
+
+{% block content %}
+	<header>
+		<h1>Twitter Tests!</h1>
+		<h2><a href="{{ url }}">Source</a></h2>
+	</header>
+
+	<section>
+		<div id="tweets">
+			<h3>Tweets by {{ name }}:</h3>
+			<ul>
+			{% for tweet in tweets %}
+				<li><p><a href="{% url "tweet_user" tweet.user %}">@{{ tweet.user }}</a> : {{ tweet.content }}<p></li>
+			{% endfor %}
+		</div>
+		<br><br>
+	</section>
+	<footer>
+		<p><a href="#top">Back to top</a></p>
+	</footer>
+{% endblock %}

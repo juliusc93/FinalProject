@@ -1,0 +1,53 @@
+{% extends "twreferences/base.html" %}
+
+{% block content %}
+	<header>
+		<h1>Tweets made by:</h1>
+		<h2>@{{ user }}</h2>
+	</header>
+
+	<section>
+		<div id="tweets">
+			<ul>
+			{% for tweet in tweets %}
+				<li><p> {{ tweet.content }} </p></li>
+			{% endfor %}
+			</ul>
+		</div>
+	</section>
+
+	<section>
+		<div id="mentions">
+			{% if mentions %}
+				<h2>This person mentions frequently:</h2>
+				<ul>
+				{% for mention in mentions %}
+					<li><p><a href="{% url "tweet_user" mention %}"> @{{ mention }} </a></p></li>
+				{% endfor %}
+				</ul>
+			{% else %}
+				<h2>This person apparently doesn't have any friends...</h2>
+			{% endif %}
+		</div>
+	</section>
+
+	<section>
+		<div id="places">
+			{% if places %}
+				<h2>This person has visited:</h2>
+				<ul>
+				{% for place in places %}
+					<li><p> {{ place }} </p></li>
+				{% endfor %}
+				</ul>
+			{% else %}
+				<h2>We don't have enough data to pinpoint exact locations...</h2>
+			{% endif %}
+		</div>
+	</section>
+
+	<footer>
+		<p><a href="javascript:history.back()">Go back</a></p>
+		<p><a href="#top">Back to top</a></p>
+	</footer>
+{% endblock %}
