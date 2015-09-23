@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Final Project - Referenced Tweets</title>
+</head>
+<body>
+	<center>
+		<h1>Welcome! Please select a place to begin:</h1>
+		<form method="POST" class="post-form">{% csrf_token %}
+	        {{ form.as_p }}
+	        <button type="submit">Search!</button>
+	    </form>
+
+	    {% if results %}
+	    	<h2>Results matching your query:</h2>
+	    	{% for result in results %}
+		    <ul>
+		    	<li><a href="{% url "tweetlist" result.place_id %}">{{ result.name }}</a></li>
+		    </ul>
+		    {% endfor %}
+		{% endif %}
+	</center>
+</body>
+</html>

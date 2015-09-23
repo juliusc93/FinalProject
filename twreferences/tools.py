@@ -10,7 +10,7 @@ def get_tweets(soup, kind):
 			userid = header.find("b").get_text()
 			text = tweet.find("p", class_="TweetTextSize").get_text()
 			if not Tweet.objects.filter(user=userid, content=text, kind=kind):
-				Tweet.objects.create(user=userid, content=text, kind=kind)
+				Tweet.objects.create(user=userid, content=text, kind=kind, place=None)
 
 def get_mentions(username):
 	mention = re.compile("@\w+")
