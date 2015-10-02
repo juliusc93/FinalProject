@@ -4,6 +4,9 @@
 	<header>
 		<h1>Tweets made by:</h1>
 		<h2>@{{ user }}</h2>
+		{% if celebrity %}
+			<p><strong>·Verified account &#10004</strong></p>
+		{% endif %}
 	</header>
 
 	<section>

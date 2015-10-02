@@ -18,7 +18,7 @@ class User(models.Model):
     related_to = models.ForeignKey("self", blank=True, null=True)
 
     def __unicode__(self):
-        return self.screen_name
+        return self.userid
 
 
 class Tweet(models.Model):
@@ -31,4 +31,4 @@ class Tweet(models.Model):
         extra = "..."
         if len(self.content) < 5:
             extra = ""
-        return self.user + ": " + self.content[:5] + extra
+        return str(self.user) + ": " + self.content[:10] + extra

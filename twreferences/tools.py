@@ -1,5 +1,7 @@
 from .models import Tweet, User
+from requests_oauthlib import OAuth1
 import re
+import requests
 
 
 def get_tweets(soup, kind, place=None):
@@ -17,7 +19,8 @@ def get_tweets(soup, kind, place=None):
                 user.save()
 
             if not Tweet.objects.filter(user=user, content=text, kind=kind):
-                Tweet.objects.create(user=user, content=text, kind=kind, place=place)
+                Tweet.objects.create(
+                    user=user, content=text, kind=kind, place=place)
 
 
 def get_mentions(username):
@@ -51,3 +54,11 @@ def get_possible_places(username):
             if elem not in places:
                 places.append(elem)
     return places
+
+
+def isCelebrity(username):
+    auth = OAuth1("en5VXgZ5CLDJ5y1N5nhbByqa8",
+                  "JjsMi4ijOeaB2qMkTWTns1VMIRetaD9eb6yggmEtKBCSQ2G6Dx")
+    url = "https://api.twitter.com/1.1/users/show.json?screen_name=" + username
+    response = requests.get(url, auth=auth).json()
+    return response["verified"]

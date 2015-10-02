@@ -5,7 +5,7 @@ from .models import Tweet, Place
 # Other imports
 from bs4 import BeautifulSoup
 from requests_oauthlib import OAuth1
-from .tools import get_tweets, get_mentions, get_possible_places
+from .tools import get_tweets, get_mentions, get_possible_places, isCelebrity
 from .forms import PlaceForm
 import requests
 
@@ -62,8 +62,10 @@ def tweet_user(request, username):
     tweets = Tweet.objects.filter(user=username, kind="by_user")
     mentions = get_mentions(username)
     places = get_possible_places(username)
+    celeb = isCelebrity(username)
     return render(request, 'twreferences/tweet_user.html', {'user': username,
                                                             'tweets': tweets,
                                                             'mentions': mentions,
                                                             'places': places,
+                                                            'celebrity': celeb,
                                                             })
