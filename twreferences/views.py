@@ -4,8 +4,7 @@ from .models import Tweet, Place
 
 # Other imports
 from bs4 import BeautifulSoup
-from requests_oauthlib import OAuth1
-from .tools import get_tweets, get_mentions, get_possible_places, isCelebrity
+from .tools import get_tweets, get_mentions, get_possible_places, isCelebrity, AUTH
 from .forms import PlaceForm
 import requests
 
@@ -18,10 +17,8 @@ def set_place(request):
     if request.method == "POST":
         form = PlaceForm(request.POST)
         if form.is_valid():  # List with all possible places matching the query
-            auth = OAuth1("en5VXgZ5CLDJ5y1N5nhbByqa8",
-                          "JjsMi4ijOeaB2qMkTWTns1VMIRetaD9eb6yggmEtKBCSQ2G6Dx")
             url = "https://api.twitter.com/1.1/geo/search.json?query=" + form.cleaned_data['place']
-            response = requests.get(url, auth=auth).json()
+            response = requests.get(url, auth=AUTH).json()
             query = response["result"]["places"]
 
             # Store the places in our database
