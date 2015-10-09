@@ -73,12 +73,7 @@ def get_mentions(username):
     mention = re.compile("@\w+")
     tweets = Tweet.objects.filter(user=username, kind="by_user")
     mentions = []
-    # If the person has twitted more than once, we'll store all the mentions in a unique entry. A dictionary accomplishes this task.
-    # Plus, we'll remove duplicate mentions, if any.
-    # We'll just use list comprehension for this.
 
-    # return [ list(set(re.findall(mention, tweet.content))) for tweet in
-    # tweets ]
     for tweet in tweets:
         query = re.findall(mention, tweet.content)
         for elem in query:
@@ -142,7 +137,7 @@ class Relationship:
     VERY_LIKELY = 4
 
 
-def findRelation(candidate, mention):
+def findRelation(candidate, mention):  # Works, but it's still a long way to completion.
     if isCelebrity(mention.userid) or get_user_tweets(mention.userid) == 401:  # Just discard this
         return Relationship.NULL
     else:  # There may be something, then
