@@ -1,10 +1,10 @@
 # Django imports
 from django.shortcuts import render
-from .models import Tweet, Place
+from .models import Tweet, Place, User
 
 # Other imports
 from bs4 import BeautifulSoup
-from .tools import get_tweets, get_mentions, get_possible_places, isCelebrity, AUTH
+from .tools import get_tweets, get_mentions, get_possible_places, isCelebrity, AUTH, get_user_tweets
 from .forms import PlaceForm
 import requests
 
@@ -17,7 +17,8 @@ def set_place(request):
     if request.method == "POST":
         form = PlaceForm(request.POST)
         if form.is_valid():  # List with all possible places matching the query
-            url = "https://api.twitter.com/1.1/geo/search.json?query=" + form.cleaned_data['place']
+            url = "https://api.twitter.com/1.1/geo/search.json?query=" + \
+                form.cleaned_data['place']
             response = requests.get(url, auth=AUTH).json()
             query = response["result"]["places"]
 
@@ -40,7 +41,7 @@ def tweetlist(request, place_id):
     webpage = requests.get(url)
     soup = BeautifulSoup(webpage.content)
     place = Place.objects.get(place_id=place_id)
-    get_tweets(soup, "by_place", place)
+    get_tweets(soup, "by_place", place=place)
     tweets = Tweet.objects.filter(kind="by_place")
     return render(request, 'twreferences/tweetlist.html', {'tweets': tweets,
                                                            'url': url,
@@ -49,13 +50,9 @@ def tweetlist(request, place_id):
 
 
 def tweet_user(request, username):
-    url = "https://twitter.com/" + username + "?count=50"
-    user_webpage = requests.get(url)
-    soup = BeautifulSoup(user_webpage.content)
-    if soup.find("div", class_="ProtectedTimeline"):
-        return render(request, 'twreferences/protected.html', {})
+    if get_user_tweets(username) == 401:  # Not authorized
+        return render(request, "twreferences/protected.html", {})
 
-    get_tweets(soup, "by_user")
     tweets = Tweet.objects.filter(user=username, kind="by_user")
     mentions = get_mentions(username)
     places = get_possible_places(username)
@@ -66,3 +63,10 @@ def tweet_user(request, username):
                                                             'places': places,
                                                             'celebrity': celeb,
                                                             })
+
+
+def relation(request, user1, user2):
+    from .tools import findRelation
+    candidate = User.objects.get(userid=user1)
+    mention = User.objects.get(userid=user2)
+    return render(request, 'twreferences/relationship.html', {'relation': findRelation(candidate, mention)})

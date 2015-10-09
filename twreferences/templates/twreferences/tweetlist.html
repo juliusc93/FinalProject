@@ -11,7 +11,7 @@
 			<h3>Top tweets located at {{ name }}:</h3>
 			<ul>
 			{% for tweet in tweets %}
-				<li><p><a href="{% url "tweet_user" tweet.user.userid %}">{{ tweet.user }}</a> : {{ tweet.content }}<p></li>
+				<li><p><a href="{% url "tweet_user" tweet.user.userid %}">{{ tweet.user }}</a> : {{ tweet.content|urlize }}<p></li>
 			{% endfor %}
 		</div>
 		<br><br>

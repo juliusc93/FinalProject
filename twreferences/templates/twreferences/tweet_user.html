@@ -5,7 +5,7 @@
 		<h1>Tweets made by:</h1>
 		<h2>@{{ user }}</h2>
 		{% if celebrity %}
-			<p><strong>·Verified account &#10004</strong></p>
+			<p><strong class="verified">&#10004 Verified account</strong></p>
 		{% endif %}
 	</header>
 
@@ -13,7 +13,7 @@
 		<div id="tweets">
 			<ul>
 			{% for tweet in tweets %}
-				<li><p> {{ tweet.content }} </p></li>
+				<li><p> {{ tweet.content|urlize }} </p></li>
 			{% endfor %}
 			</ul>
 		</div>

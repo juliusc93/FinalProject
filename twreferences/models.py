@@ -1,6 +1,4 @@
 from django.contrib.gis.db import models
-from requests_oauthlib import OAuth1
-import requests
 # Create your models here.
 
 
@@ -39,7 +37,7 @@ class Tweet(models.Model):
         if len(self.content) < 5:
             extra = ""
         return str(self.user) + ": " + self.content[:10] + extra
-
+    """
     def has_geo(self):
         AUTH = OAuth1("en5VXgZ5CLDJ5y1N5nhbByqa8",
                       "JjsMi4ijOeaB2qMkTWTns1VMIRetaD9eb6yggmEtKBCSQ2G6Dx")
@@ -47,3 +45,4 @@ class Tweet(models.Model):
               "&screen_name=" + self.user.userid
         response = requests.get(url, auth=AUTH).json()
         return response["geo"] is None
+    """
