@@ -9,7 +9,7 @@ import requests
 AUTH = OAuth1("en5VXgZ5CLDJ5y1N5nhbByqa8",
               "JjsMi4ijOeaB2qMkTWTns1VMIRetaD9eb6yggmEtKBCSQ2G6Dx")
 
-""" To succesfully obtain the geo from instagram (and swarmapp) people, it was necessary to call the API for assistance.
+""" To succesfully obtain the geo from instagram (and swarmapp) tweets, it was necessary to call the API for assistance.
     However, combining both scraping and API calls for each tweet to obtain its geo resulted in really, reaaaaaaally
     reaaaaaaallllllllllyyyyyyyyyyyy (emphasis) slow and painful performance in terms of computational complexity.
 
