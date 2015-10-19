@@ -68,5 +68,7 @@ def tweet_user(request, username):
 def relation(request, user1, user2):
     from .tools import findRelation
     candidate = User.objects.get(userid=user1)
+    if not Tweet.objects.filter(user=user2):
+        get_user_tweets(user2)
     mention = User.objects.get(userid=user2)
     return render(request, 'twreferences/relationship.html', {'relation': findRelation(candidate, mention)})
