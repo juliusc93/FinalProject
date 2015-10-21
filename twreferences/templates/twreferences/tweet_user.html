@@ -13,7 +13,12 @@
 		<div id="tweets">
 			<ul>
 			{% for tweet in tweets %}
-				<li><p> {{ tweet.content|urlize }} </p></li>
+				<li>
+					<p> {{ tweet.content|urlize }} </p>
+					{%if tweet.location %}
+					<p><a href="http://maps.google.com/?q={{ tweet.location.y }},{{ tweet.location.x }}">View!</a></p>
+					{% endif %}
+				</li>
 			{% endfor %}
 			</ul>
 		</div>
