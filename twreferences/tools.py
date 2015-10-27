@@ -141,6 +141,8 @@ def findRelation(candidate, mention):  # Works, but it's still a long way to com
     if isCelebrity(mention.userid) or get_user_tweets(mention.userid) == 401:  # Just discard this
         return Relationship.NULL
     else:  # There may be something, then
+        # candidate_tweets = Tweet.objects.filter(user=candidate).exclude(location=None)
+        # mention_tweets = Tweet.objects.filter(user=mention).exclude(location=None)
         if mention_count(mention, candidate) == 0:
             return Relationship.WEAK
         elif mention_count(mention, candidate) <= 5:

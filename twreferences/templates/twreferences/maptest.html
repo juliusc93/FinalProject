@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Maps - Test</title>
+
+	{% load staticfiles %}
+	<link rel="stylesheet" href="{% static "css/test.css" %}">
+</head>
+<body>
+	<div class="container">
+		<div id="map"></div>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js"></script>
+	<script type="text/javascript">
+		$(function(){
+			function initialize(){
+				var latlng = new google.maps.LatLng(10.97854, -74.80132);
+				var mapSettings = {
+					center: latlng,
+					zoom: 14,
+					mapTypeId: google.maps.MapTypeId.ROADMAP
+				}
+				map = new google.maps.Map($('#map').get(0), mapSettings);
+
+				{% for tweet in tweets %}
+				var pos =  new google.maps.LatLng({{ tweet.location.y }}, {{ tweet.location.x }});
+				var marker = new google.maps.Marker({
+					position: pos,
+					map: map,
+					icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+					title: 'Test!'
+				});
+				{% endfor %}
+			}
+
+			initialize();
+
+		});
+	</script>
+</body>
+</html>

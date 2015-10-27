@@ -72,3 +72,8 @@ def relation(request, user1, user2):
         get_user_tweets(user2)
     mention = User.objects.get(userid=user2)
     return render(request, 'twreferences/relationship.html', {'relation': findRelation(candidate, mention)})
+
+
+def test(request):
+    tweets = Tweet.objects.exclude(location=None)
+    return render(request, 'twreferences/maptest.html', {'tweets': tweets})
