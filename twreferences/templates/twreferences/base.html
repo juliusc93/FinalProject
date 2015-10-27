@@ -2,28 +2,8 @@
 <html>
 <head>
 	<title>Final Project - Referenced Tweets</title>
-	<style type="text/css">
-		header, footer{
-			text-align: center;
-		}
-
-		footer p{
-			display: inline-block;
-			margin-right: 10px;
-		}
-
-		footer p:last-child{
-			margin-right: 0;
-		}
-
-		#tweets ul li{
-			margin-bottom: 30px;
-		}
-
-		.verified{
-			color: royalblue;
-		}
-	</style>
+	{% load staticfiles %}
+	<link rel="stylesheet" href="{% static "css/style.css" %}">
 </head>
 <body>
 	{% block content %}

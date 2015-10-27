@@ -1,0 +1,20 @@
+header, footer{
+	text-align: center;
+}
+
+footer p{
+	display: inline-block;
+	margin-right: 10px;
+}
+
+footer p:last-child{
+	margin-right: 0;
+}
+
+#tweets ul li{
+	margin-bottom: 30px;
+}
+
+.verified{
+	color: royalblue;
+}

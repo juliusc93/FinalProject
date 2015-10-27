@@ -29,7 +29,7 @@ class Tweet(models.Model):
     kind = models.CharField(max_length=30)
     place = models.ForeignKey(Place, blank=True, null=True, on_delete=models.SET_NULL)
     location = models.PointField(blank=True, null=True)
-
+    # created_at = models.DateTimeField(blank=True, null=True)
     objects = models.GeoManager()
 
     def __unicode__(self):
