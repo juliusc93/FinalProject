@@ -11,8 +11,29 @@ footer p:last-child{
 	margin-right: 0;
 }
 
+.container {
+	background: #FFF;
+	box-shadow: 0 0 10px #000;
+	border-radius: 10px;
+	height: 500px;
+	margin: 0 auto 40px;
+	padding: 5px;
+	width: 900px;
+}
+
+.content, .geo-content{
+	border: 1px solid black;
+}
+
+#map {
+	width: 100%;
+	height: 100%;
+}
+
 #tweets ul li{
+	list-style: none;
 	margin-bottom: 30px;
+	text-align: center;
 }
 
 .verified{

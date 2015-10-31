@@ -10,13 +10,20 @@
 	</header>
 
 	<section>
+		<div class="container">
+			<div id="map" />
+		</div>
+	</section>
+
+	<section>
 		<div id="tweets">
 			<ul>
 			{% for tweet in tweets %}
 				<li>
-					<p> {{ tweet.content|urlize }} </p>
 					{%if tweet.location %}
-					<p><a href="http://maps.google.com/?q={{ tweet.location.y }},{{ tweet.location.x }}">View!</a></p>
+					<p class="geo-content" data-lat={{ tweet.location.y }} data-lng={{ tweet.location.x }}> {{ tweet.content|urlize }} </p>
+					{% else %}
+					<p class="content"> {{ tweet.content|urlize }} </p>
 					{% endif %}
 				</li>
 			{% endfor %}
@@ -40,6 +47,7 @@
 		</div>
 	</section>
 
+	<!-- Hide this for now
 	<section>
 		<div id="places">
 			{% if places %}
@@ -54,9 +62,41 @@
 			{% endif %}
 		</div>
 	</section>
-
+	-->
 	<footer>
 		<p><a href="javascript:history.back()">Go back</a></p>
 		<p><a href="#top">Back to top</a></p>
 	</footer>
+
+	<!-- Scripts below -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js"></script>
+	<script type="text/javascript">
+		$(function(){
+			function initialize(){
+				var latlng = new google.maps.LatLng(10.97854, -74.80132);
+				var mapSettings = {
+					center: latlng,
+					zoom: 14,
+					mapTypeId: google.maps.MapTypeId.ROADMAP
+				}
+				map = new google.maps.Map($('#map').get(0), mapSettings);
+				
+				$(".geo-content").each(function(){
+					var lat = $(this).attr("data-lat");
+					var lng = $(this).attr("data-lng");
+					var pos =  new google.maps.LatLng(lat, lng);
+					var marker = new google.maps.Marker({
+						position: pos,
+						map: map,
+						icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+						title: 'Test!'
+					});
+				});
+				
+			}
+
+			initialize();
+		});
+	</script>
 {% endblock %}

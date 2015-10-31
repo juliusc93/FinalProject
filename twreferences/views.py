@@ -55,12 +55,11 @@ def tweet_user(request, username):
 
     tweets = Tweet.objects.filter(user=username, kind="by_user")
     mentions = get_mentions(username)
-    places = get_possible_places(username)
+    # places = get_possible_places(username)
     celeb = isCelebrity(username)
     return render(request, 'twreferences/tweet_user.html', {'user': username,
                                                             'tweets': tweets,
                                                             'mentions': mentions,
-                                                            'places': places,
                                                             'celebrity': celeb,
                                                             })
 
