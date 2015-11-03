@@ -2,6 +2,8 @@
 
 {% block content %}
 
+{% load extra_tags %}
+
 	<div class="container">
 		<div id="map" />
 	</div>
@@ -24,8 +26,8 @@
 
 				var data1 = {{ tw_candidate.coordinates|safe }};
 				var data2 = {{ tw_mention.coordinates|safe }};
-				var info1 = {{ tw_candidate.info|safe }};
-				var info2 = {{ tw_mention.info|safe }};
+				var info1 = {{ tw_candidate.info|urlize_list|safe }};
+				var info2 = {{ tw_mention.info|urlize_list|safe }};
 				addMarker(data1, info1, "blue");
 				addMarker(data2, info2, "red");
 			}
@@ -42,7 +44,7 @@
 					});
 
 					marker.info = new google.maps.InfoWindow({
-				    content: info[i]
+				    content: "<strong>"+info[i]+"</strong>"
 					});
 
 					google.maps.event.addListener(marker, 'click', function(){
