@@ -4,7 +4,6 @@ from django.contrib.gis.geos import Point
 
 import re
 import requests
-
 # Authentication key
 AUTH = OAuth1("en5VXgZ5CLDJ5y1N5nhbByqa8",
               "JjsMi4ijOeaB2qMkTWTns1VMIRetaD9eb6yggmEtKBCSQ2G6Dx")
@@ -95,6 +94,13 @@ def get_possible_places(username):
             if elem not in places:
                 places.append(elem)
     return places
+
+
+def tweets2js(username):
+    query = Tweet.objects.filter(user=username).exclude(location=None)
+    coords = [{'lat': tweet.location.y, 'lng': tweet.location.x} for tweet in query]
+    info = [tweet.content.encode("utf-8") for tweet in query]
+    return {'info': info, 'coordinates': coords}
 
 
 """

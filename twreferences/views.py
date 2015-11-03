@@ -4,7 +4,7 @@ from .models import Tweet, Place, User
 
 # Other imports
 from bs4 import BeautifulSoup
-from .tools import get_tweets, get_mentions, get_possible_places, isCelebrity, AUTH, get_user_tweets
+from .tools import get_tweets, get_mentions, isCelebrity, AUTH, get_user_tweets, tweets2js
 from .forms import PlaceForm
 import requests
 
@@ -64,15 +64,21 @@ def tweet_user(request, username):
                                                             })
 
 
-def relation(request, user1, user2):
+def relation(request, candidate, mention):
     from .tools import findRelation
-    candidate = User.objects.get(userid=user1)
-    if not Tweet.objects.filter(user=user2):
-        get_user_tweets(user2)
-    mention = User.objects.get(userid=user2)
-    return render(request, 'twreferences/relationship.html', {'relation': findRelation(candidate, mention)})
+    candidate = User.objects.get(userid=candidate)
+    if not Tweet.objects.filter(user=mention):
+        get_user_tweets(mention)
+    mention = User.objects.get(userid=mention)
+
+    tw_candidate = tweets2js(candidate)
+    tw_mention = tweets2js(mention)
+
+    return render(request, 'twreferences/relationship.html', {'relation': findRelation(candidate, mention),
+                                                              'tw_candidate': tw_candidate,
+                                                              'tw_mention': tw_mention,
+                                                              })
 
 
 def test(request):
-    tweets = Tweet.objects.exclude(location=None)
-    return render(request, 'twreferences/maptest.html', {'tweets': tweets})
+    return render(request, 'twreferences/relationship.html', {})

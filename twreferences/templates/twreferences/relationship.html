@@ -1,10 +1,59 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Relationship</title>
-</head>
-<body>
-	<!-- A very basic, pre-pre-pre-alpha version of this. But it works, at least... -->
-	{{ relation }}
-</body>
-</html>
+{% extends "twreferences/base.html" %}
+
+{% block content %}
+
+	<div class="container">
+		<div id="map" />
+	</div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js"></script>
+
+	<script type="text/javascript">
+		$(function(){
+			var map;
+
+			function initialize(){
+				var latlng = new google.maps.LatLng(10.99254, -74.82132);
+				var mapSettings = {
+					center: latlng,
+					zoom: 13,
+					mapTypeId: google.maps.MapTypeId.ROADMAP
+				}
+				map = new google.maps.Map($('#map').get(0), mapSettings);
+
+				var data1 = {{ tw_candidate.coordinates|safe }};
+				var data2 = {{ tw_mention.coordinates|safe }};
+				var info1 = {{ tw_candidate.info|safe }};
+				var info2 = {{ tw_mention.info|safe }};
+				addMarker(data1, info1, "blue");
+				addMarker(data2, info2, "red");
+			}
+
+			function addMarker(data, info, color){
+
+				for(var i = 0; i < data.length; i++){
+					var pos =  data[i];
+					var marker = new google.maps.Marker({
+						position: pos,
+						map: map,
+						icon: 'http://maps.google.com/mapfiles/ms/icons/'+ color +'-dot.png',
+						title: 'Test!'
+					});
+
+					marker.info = new google.maps.InfoWindow({
+				    content: info[i]
+					});
+
+					google.maps.event.addListener(marker, 'click', function(){
+						var marker_map = this.getMap();
+						this.info.open(marker_map, this);
+					});
+				}
+			}
+			
+			initialize();
+		});
+	</script>
+
+{% endblock %}
