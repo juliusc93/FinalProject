@@ -5,8 +5,8 @@ from django.contrib.gis.geos import Point
 import re
 import requests
 # Authentication key
-AUTH = OAuth1("en5VXgZ5CLDJ5y1N5nhbByqa8",
-              "JjsMi4ijOeaB2qMkTWTns1VMIRetaD9eb6yggmEtKBCSQ2G6Dx")
+AUTH = OAuth1("2cVrQhHKw0x34H9EAyzkMZ7aw",
+              "hsl8tfWm2SMOwqjarDfCIkkbpp6Zvrl9syP4OnSzxprUYZtfgP")
 
 """ To succesfully obtain the geo from instagram (and swarmapp) tweets, it was necessary to call the API for assistance.
     However, combining both scraping and API calls for each tweet to obtain its geo resulted in really, reaaaaaaally
@@ -117,10 +117,8 @@ def tweets2js(username):
 
 
 def isCelebrity(username):
-    auth = OAuth1("en5VXgZ5CLDJ5y1N5nhbByqa8",
-                  "JjsMi4ijOeaB2qMkTWTns1VMIRetaD9eb6yggmEtKBCSQ2G6Dx")
     url = "https://api.twitter.com/1.1/users/show.json?screen_name=" + username
-    response = requests.get(url, auth=auth).json()
+    response = requests.get(url, auth=AUTH).json()
     return response["verified"]
 
 
