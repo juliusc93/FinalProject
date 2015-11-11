@@ -134,11 +134,13 @@ def mention_count(user, search):
 
 
 class Relationship:
-    NULL = 0
-    WEAK = 1
-    MEDIUM = 2
-    LIKELY = 3
-    VERY_LIKELY = 4
+    NULL = "There is very little or no relationship at all between the studied people."
+    WEAK = "There is some relationship between them, they have met at least once. They frequent some similar places but only seem " + \
+           "to be loosely related."
+    MEDIUM = "There is a relationship between them. They frequent similar places, and seem to be related, " + \
+             "They could be an acquaintance or have a small friendship."
+    LIKELY = "They are indeed related. They have a conversation frequently and frequent similar places."
+    VERY_LIKELY = "They seem to be close or good friends, and often go to the same places together."
 
 
 def findRelation(candidate, mention):  # Works, but it's still a long way to completion.

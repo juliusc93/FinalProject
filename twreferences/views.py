@@ -74,7 +74,9 @@ def relation(request, candidate, mention):
     tw_candidate = tweets2js(candidate)
     tw_mention = tweets2js(mention)
 
-    return render(request, 'twreferences/relationship.html', {'relation': findRelation(candidate, mention),
+    return render(request, 'twreferences/relationship.html', {'candidate': candidate,
+                                                              'mention': mention,
+                                                              'relation': findRelation(candidate, mention),
                                                               'tw_candidate': tw_candidate,
                                                               'tw_mention': tw_mention,
                                                               })

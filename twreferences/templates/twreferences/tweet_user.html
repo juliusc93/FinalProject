@@ -33,17 +33,19 @@
 
 	<section>
 		<div id="mentions">
-			{% for mention in mentions %}
+			{% if mentions %}
 				<h2>This person mentions frequently:</h2>
 				<ul>
+					{% for mention in mentions %}
 					<li>
 						<p><a href="{% url "relation" user mention %}"> @{{ mention }} </a></p>
 					</li>
+					{% endfor %}
 				</ul>
 				<p><strong>Click on any of them to calculate if they could be related or not!</strong></p>
-			{% empty %}
+			{% else %}
 				<h2>This person apparently doesn't have any friends...</h2>
-			{% endfor %}
+			{% endif %}
 		</div>
 	</section>
 

@@ -4,9 +4,13 @@
 
 {% load extra_tags %}
 
+	<h1>Relationship between {{ candidate }} and {{ mention }}</h1>
+
 	<div class="container">
-		<div id="map" />
+		<div id="map"></div>
 	</div>
+
+	<p id="relation">{{ relation }}</p>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js"></script>
@@ -28,11 +32,11 @@
 				var data2 = {{ tw_mention.coordinates|safe }};
 				var info1 = {{ tw_candidate.info|urlize_list|safe }};
 				var info2 = {{ tw_mention.info|urlize_list|safe }};
-				addMarker(data1, info1, "blue");
-				addMarker(data2, info2, "red");
+				addMarker("{{ candidate }}", data1, info1, "blue");
+				addMarker("{{ mention }}", data2, info2, "red");
 			}
 
-			function addMarker(data, info, color){
+			function addMarker(author, data, info, color){
 
 				for(var i = 0; i < data.length; i++){
 					var pos =  data[i];
@@ -44,7 +48,7 @@
 					});
 
 					marker.info = new google.maps.InfoWindow({
-				    content: "<strong>"+info[i]+"</strong>"
+				    content: '<img src="http://www.catalystlifeservices.org/upload/images/logos/icon_twitter.gif" /><h2>@'+author+':</h2><p>'+info[i]+'</p>'
 					});
 
 					google.maps.event.addListener(marker, 'click', function(){

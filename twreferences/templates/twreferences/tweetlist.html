@@ -2,16 +2,17 @@
 
 {% block content %}
 	<header>
-		<h1>Twitter Tests!</h1>
+		<h1>Top tweets located at {{ name }}:</h1>
 		<h2><a href="{{ url }}">Source</a></h2>
+		&nbsp; &nbsp; &nbsp; &nbsp;
 	</header>
 
 	<section>
 		<div id="tweets">
-			<h3>Top tweets located at {{ name }}:</h3>
 			<ul>
 			{% for tweet in tweets %}
-				<li><p><a href="{% url "tweet_user" tweet.user.userid %}">{{ tweet.user }}</a> : {{ tweet.content|urlize }}<p></li>
+				<li><p><a href="{% url "tweet_user" tweet.user.userid %}">@{{ tweet.user }}</a> :</p>
+				<p>{{ tweet.content|urlize }}</p></li>
 			{% endfor %}
 		</div>
 		<br><br>

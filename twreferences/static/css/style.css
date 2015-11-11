@@ -30,6 +30,11 @@ footer p:last-child{
 	height: 100%;
 }
 
+#relation {
+	text-align: center;
+	font-size: 20px;
+}
+
 #tweets ul li{
 	list-style: none;
 	margin-bottom: 30px;
