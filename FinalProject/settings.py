@@ -80,7 +80,7 @@ DATABASES = {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'twdatabase',
         'USER': 'postgres',
-        'PASSWORD': 'admin',
+        'PASSWORD': 'test'
     }
 }
 

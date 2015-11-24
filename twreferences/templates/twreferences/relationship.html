@@ -9,6 +9,50 @@
 	<div class="container">
 		<div id="map"></div>
 	</div>
+	
+	<section class="tw-list">
+	    <div>
+	    	<h3>Tweets by {{ candidate }}:</h3>
+	    	<h4 class="clickable">Hide!</h4>
+	    	<article class="info">
+	    	{% for tweet in list_candidate %}
+	    	<p>{{ tweet.content }}</p>
+	    	{% endfor %}
+	    	</article>
+	    </div>
+	    <div>
+	    	<h3>Tweets by {{ mention }}:</h3>
+	    	<h4 class="clickable">Hide!</h4>
+	    	<article class="info">
+	    	{% for tweet in list_mention %}
+	    	<p>{{ tweet.content }}</p>
+	    	{% endfor %}
+	    	</article>
+	    </div>
+	</section>
+	
+	<section class="tw-list">
+		<div>
+			<h3>Tweets {{ candidate }} has mentioned {{ mention }}:</h3>
+			<h4 class="clickable">Hide!</h4>
+			<article class="info">
+			{% for tweet in filter_candidate %}
+			<p>{{ tweet.content }}</p>
+			{% endfor %}
+			</article>
+			<p><strong>Total:</strong> {{ count1 }}</p>
+		</div>
+		<div>
+			<h3>Tweets {{ mention }} has mentioned {{ candidate }}:</h3>
+			<h4 class="clickable">Hide!</h4>
+			<article class="info">
+			{% for tweet in filter_mention %}
+			<p>{{ tweet.content }}</p>
+			{% endfor %}
+			</article>
+			<p><strong>Total:</strong> {{ count2 }}</p>
+		</div>
+	</section>
 
 	<p id="relation">{{ relation }}</p>
 
@@ -57,6 +101,19 @@
 					});
 				}
 			}
+			
+			function toggleInfo(){
+				if( $(this).text() === "Show!"){
+					$(this).text("Hide!");
+			    	$(this).siblings(".info").fadeIn();
+				}
+				else{
+					$(this).text("Show!");
+			    	$(this).siblings(".info").fadeOut();
+				}
+			}
+			
+			$(".clickable").click(toggleInfo);
 			
 			initialize();
 		});

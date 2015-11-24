@@ -1,4 +1,4 @@
-from .models import Tweet, User
+from .models import Tweet, User, Place
 from requests_oauthlib import OAuth1
 from django.contrib.gis.geos import Point
 
@@ -39,9 +39,19 @@ def get_user_tweets(username):
                 location = Point(list(reversed(elem["geo"]["coordinates"])))
             except:
                 location = None
+            
+            if elem["place"] is not None:
+                try:
+                    place = Place.objects.get(place_id=elem["place"]["id"])
+                except:
+                    place = Place(place_id=elem["place"]["id"], name=elem["place"]["full_name"])
+                    place.save()
+            else:
+                place = None
+                
             if not Tweet.objects.filter(user=username, content=text):
                 Tweet.objects.create(
-                    user=user, content=text, kind="by_user", place=None, location=location)
+                    user=user, content=text, kind="by_user", place=place, location=location)
 
     return response.status_code
 
@@ -122,29 +132,29 @@ def isCelebrity(username):
     return response["verified"]
 
 
-def mention_count(user, search):
-    regex = re.compile("@\w+")
+def findTweets(user, mention):
+    regex = re.compile("@" + mention)
     tweets = Tweet.objects.filter(user=user, kind="by_user")
-    mentions = [re.findall(regex, tweet.content) for tweet in tweets]
-    """
-     As re.findall() may return sublists, we'll convert mentions to a flat
-     list, then count the occurrences over it
-    """
-    return [item for sublist in mentions for item in sublist].count("@" + search.userid)
+    return [tweet for tweet in tweets if re.findall(regex, tweet.content)]
+    
 
+def mention_count(user, search):
+    regex = re.compile("@" + search)
+    tweets = Tweet.objects.filter(user=user, kind="by_user")
+    return len([tweet for tweet in tweets if re.findall(regex, tweet.content)])
 
 class Relationship:
-    NULL = "There is very little or no relationship at all between the studied people."
+    NULL = "There is no relationship at all between the studied people. (Remember celebrities and verified accounts are discarded in this project.)"
     WEAK = "There is some relationship between them, they have met at least once. They frequent some similar places but only seem " + \
            "to be loosely related."
-    MEDIUM = "There is a relationship between them. They frequent similar places, and seem to be related, " + \
+    MEDIUM = "There is a relationship between them. They have met several times and probably have met in similar places. " + \
              "They could be an acquaintance or have a small friendship."
     LIKELY = "They are indeed related. They have a conversation frequently and frequent similar places."
     VERY_LIKELY = "They seem to be close or good friends, and often go to the same places together."
 
 
 def findRelation(candidate, mention):  # Works, but it's still a long way to completion.
-    if isCelebrity(mention.userid) or get_user_tweets(mention.userid) == 401:  # Just discard this
+    if isCelebrity(mention) or get_user_tweets(mention) == 401:  # Just discard this
         return Relationship.NULL
     else:  # There may be something, then
         # candidate_tweets = Tweet.objects.filter(user=candidate).exclude(location=None)

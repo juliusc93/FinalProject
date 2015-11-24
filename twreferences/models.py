@@ -14,13 +14,14 @@ class Place(models.Model):
 
 
 class User(models.Model):
-    userid = models.CharField(max_length=30, primary_key=True)
-    screen_name = models.CharField(max_length=30)
+    userid = models.CharField(max_length=60, primary_key=True)
+    screen_name = models.CharField(max_length=60)
     is_candidate = models.BooleanField(default=False)
     related_to = models.ForeignKey("self", blank=True, null=True)
 
     def __unicode__(self):
         return self.userid
+    
 
 
 class Tweet(models.Model):
@@ -37,12 +38,3 @@ class Tweet(models.Model):
         if len(self.content) < 5:
             extra = ""
         return str(self.user) + ": " + self.content[:10] + extra
-    """
-    def has_geo(self):
-        AUTH = OAuth1("en5VXgZ5CLDJ5y1N5nhbByqa8",
-                      "JjsMi4ijOeaB2qMkTWTns1VMIRetaD9eb6yggmEtKBCSQ2G6Dx")
-        url = "https://api.twitter.com/1.1/statuses/user_timeline.json?count=50&exclude_replies=true&include_rts=false" + \
-              "&screen_name=" + self.user.userid
-        response = requests.get(url, auth=AUTH).json()
-        return response["geo"] is None
-    """

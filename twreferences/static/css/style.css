@@ -44,3 +44,19 @@ footer p:last-child{
 .verified{
 	color: royalblue;
 }
+
+.tw-list div{
+	float:left;
+  	width:50%;
+  	text-align: center;
+}
+
+.tw-list:after{
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.clickable {
+	cursor: pointer;
+}
