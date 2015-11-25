@@ -34,26 +34,29 @@
 	<section class="tw-list">
 		<div>
 			<h3>Tweets {{ candidate }} has mentioned {{ mention }}:</h3>
-			<h4 class="clickable">Hide!</h4>
+			<h4 class="clickable">Click to Hide!</h4>
 			<article class="info">
 			{% for tweet in filter_candidate %}
 			<p>{{ tweet.content }}</p>
 			{% endfor %}
 			</article>
+			<br>
 			<p><strong>Total:</strong> {{ count1 }}</p>
 		</div>
 		<div>
 			<h3>Tweets {{ mention }} has mentioned {{ candidate }}:</h3>
-			<h4 class="clickable">Hide!</h4>
+			<h4 class="clickable">Click to Hide!</h4>
 			<article class="info">
 			{% for tweet in filter_mention %}
 			<p>{{ tweet.content }}</p>
 			{% endfor %}
 			</article>
+			<br>
 			<p><strong>Total:</strong> {{ count2 }}</p>
 		</div>
 	</section>
-
+	
+	<br>
 	<p id="relation">{{ relation }}</p>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -104,11 +107,11 @@
 			
 			function toggleInfo(){
 				if( $(this).text() === "Show!"){
-					$(this).text("Hide!");
+					$(this).text("Click to Hide!");
 			    	$(this).siblings(".info").fadeIn();
 				}
 				else{
-					$(this).text("Show!");
+					$(this).text("Click to Show!");
 			    	$(this).siblings(".info").fadeOut();
 				}
 			}

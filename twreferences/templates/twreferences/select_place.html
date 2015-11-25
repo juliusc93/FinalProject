@@ -7,6 +7,7 @@
 <body>
 	<center>
 		<h1>Welcome! Please select a place to begin:</h1>
+		<br>
 		<form method="POST" class="post-form">{% csrf_token %}
 	        {{ form.as_p }}
 	        <button type="submit">Search!</button>

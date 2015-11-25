@@ -8,7 +8,13 @@
 			<p><strong class="verified">&#10004 Verified account</strong></p>
 		{% endif %}
 	</header>
-
+	
+	{% if geotweets == 0 %}
+	<br><br>
+	<center><h3>We couldn't retrieve any geo-referenced tweets from this person.</h3></center>
+	<br>
+	{% endif %}
+	
 	<section>
 		<div class="container">
 			<div id="map" />

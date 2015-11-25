@@ -39,7 +39,7 @@ def searchuser(request):
     if request.method == "POST":
         form = UserForm(request.POST)
         if form.is_valid():
-            return redirect("/user/"+form.cleaned_data['user'])
+            return redirect("/user/"+form.cleaned_data['user'].strip())
     else:
         form = UserForm()
     return render(request, 'twreferences/search_user.html', {'form': form })
@@ -76,6 +76,7 @@ def tweet_user(request, username):
                                                                 'tweets': tweets,
                                                                 'mentions': mentions,
                                                                 'celebrity': celeb,
+                                                                'geotweets': Tweet.objects.filter(user=username).exclude(location=None).count()
                                                                 })
 
 
