@@ -153,12 +153,19 @@ class Relationship:
     VERY_LIKELY = "They seem to be close or good friends, and often go to the same places together."
 
 
-def findRelation(candidate, mention):  # Works, but it's still a long way to completion.
+def findRelation(candidate, mention):
     if isCelebrity(mention) or get_user_tweets(mention) == 401:  # Just discard this
         return Relationship.NULL
     else:  # There may be something, then
         # candidate_tweets = Tweet.objects.filter(user=candidate).exclude(location=None)
         # mention_tweets = Tweet.objects.filter(user=mention).exclude(location=None)
+        
+        """
+            nearbytweets = 0
+            for item in candidate_tweets:
+                counter = mention_tweets.filter(location__distance_lte=(item.point, 800)).count() # 500m
+                nearbytweets = nearbytweets + counter
+        """
         if mention_count(mention, candidate) == 0:
             return Relationship.WEAK
         elif mention_count(mention, candidate) <= 5:

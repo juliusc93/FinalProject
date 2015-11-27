@@ -60,3 +60,7 @@ footer p:last-child{
 .clickable {
 	cursor: pointer;
 }
+
+#relation {
+	font-size: 30px;
+}

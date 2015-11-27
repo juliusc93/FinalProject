@@ -67,7 +67,7 @@
 			var map;
 
 			function initialize(){
-				var latlng = new google.maps.LatLng(10.99254, -74.82132);
+				var latlng = new google.maps.LatLng({{ center_lat }}, {{ center_lng }});
 				var mapSettings = {
 					center: latlng,
 					zoom: 13,
@@ -106,7 +106,7 @@
 			}
 			
 			function toggleInfo(){
-				if( $(this).text() === "Show!"){
+				if( $(this).text() === "Click to Show!"){
 					$(this).text("Click to Hide!");
 			    	$(this).siblings(".info").fadeIn();
 				}

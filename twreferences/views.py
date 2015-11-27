@@ -10,6 +10,7 @@ import requests
 
 # Create your views here.
 
+mapresult = None
 
 def set_place(request):
     places = None
@@ -19,23 +20,27 @@ def set_place(request):
         if form.is_valid():  # List with all possible places matching the query
             url = "https://api.twitter.com/1.1/geo/search.json?query=" + \
                 form.cleaned_data['place']
-            response = requests.get(url, auth=AUTH, headers={'Connection':'close'}).json()
-            query = response["result"]["places"]
-
-            # Store the places in our database
-            places = []
-            for place in query:
-                p = Place(place_id=place["id"], name=place["full_name"])
-                # Don't save it more than once
-                if p not in Place.objects.all():
-                    p.save()
-                places.append(p)
+            place_response = requests.get(url, auth=AUTH, headers={'Connection':'close'})
+            if place_response.status_code == 200:
+                response = place_response.json()
+                query = response["result"]["places"]
+    
+                # Store the places in our database
+                places = []
+                for place in query:
+                    p = Place(place_id=place["id"], name=place["full_name"])
+                    # Don't save it more than once
+                    if p not in Place.objects.all():
+                        p.save()
+                    places.append(p)
     else:
         form = PlaceForm()
     return render(request, 'twreferences/select_place.html', {'form': form, 'results': places})
 
 
 def searchuser(request):
+    global mapresult
+    mapresult = {'lat': 10.9685, 'lng': -74.7813}
     if request.method == "POST":
         form = UserForm(request.POST)
         if form.is_valid():
@@ -46,6 +51,11 @@ def searchuser(request):
     
     
 def tweetlist(request, place_id):
+    global mapresult
+    mapcenter = Place.objects.get(place_id=place_id)
+    googleurl = "https://maps.googleapis.com/maps/api/geocode/json?address=" + mapcenter.name
+    map_response = requests.get(googleurl).json()
+    mapresult = map_response["results"][0]["geometry"]["location"]
     Tweet.objects.filter(kind="by_place").delete()
     url = "https://twitter.com/search?q=place%3A" + place_id + "&lang=en"
     webpage = requests.get(url)
@@ -76,7 +86,9 @@ def tweet_user(request, username):
                                                                 'tweets': tweets,
                                                                 'mentions': mentions,
                                                                 'celebrity': celeb,
-                                                                'geotweets': Tweet.objects.filter(user=username).exclude(location=None).count()
+                                                                'geotweets': Tweet.objects.filter(user=username).exclude(location=None).count(),
+                                                                'center_lat': mapresult["lat"],
+                                                                'center_lng': mapresult["lng"]
                                                                 })
 
 
@@ -99,6 +111,8 @@ def relation(request, candidate, mention):
                                                               'filter_mention': findTweets(mention, candidate),
                                                               'count1': mention_count(candidate, mention),
                                                               'count2': mention_count(mention, candidate),
+                                                              'center_lat': mapresult["lat"],
+                                                              'center_lng': mapresult["lng"]
                                                               })
 
 
